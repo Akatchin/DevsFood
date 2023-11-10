@@ -16,7 +16,7 @@ export default () => {
 
     useEffect(() => {
         
-    }, [activeCategory])
+    }, [activeCategory]);
 
     useEffect(() => {
         const getCategories = async () => {
