@@ -18,3 +18,14 @@ export const CategoryList = styled.div`
     display: flex;
     margin-top: 10px;
 `;
+
+export const ProductArea = styled.div`
+    width: 500px;
+    height: 500px;
+
+`;
+
+export const ProductList = styled.div`
+    width: 500px;
+    height: 500px;
+`;
