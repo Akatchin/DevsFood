@@ -11,13 +11,13 @@ import Tela2Screen from './pages/Tela2Screen';
 import PrivateRoute from './components/PrivateRoute';
 import MenuItem from './components/MenuItem';
 import Cart from './components/Cart';
+import ProductItem from './components/ProductItem';
 
 export default () => {
 
     const name = useSelector(state => state.user.name);
 
     return (
-        <>
         <Container>
             <Menu>
                 <MenuItem title="Loja" icon="/assets/store.png" link="/"/>
@@ -42,6 +42,5 @@ export default () => {
             <ReactTooltip id="tip-top" place="top" effect="solid"/>
             <ReactTooltip id="tip-right" place="right" effect="solid"/>
         </Container>
-        </>
     );
 }

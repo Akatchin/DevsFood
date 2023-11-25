@@ -9,7 +9,6 @@ import CategoryItem from '../../components/CategoryItem';
 import ProductItem from '../../components/ProductItem';
 
 export default () => {
-    const navigate = useNavigate();
     const [headerSearch, setHeaderSearch] = useState("");
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([])
@@ -18,7 +17,8 @@ export default () => {
 
     const getProducts = async () => {
         const prods = await api.getProducts();
-        if(prods.error = "") {
+        
+        if(prods.error === "") {
             setProducts(prods.result.data)
         }
     }
@@ -31,7 +31,7 @@ export default () => {
         const getCategories = async () => {
         const cat = await api.getCategories();
         if(cat.error === "") {
-            setCategories(cat.result);           
+            setCategories(cat.result);         
             }   
         };
         getCategories()

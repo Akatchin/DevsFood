@@ -20,12 +20,12 @@ export const CategoryList = styled.div`
 `;
 
 export const ProductArea = styled.div`
-    width: 500px;
-    height: 500px;
+    margin: 20px 0 10px 0;
 
 `;
 
 export const ProductList = styled.div`
-    width: 500px;
-    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
 `;
