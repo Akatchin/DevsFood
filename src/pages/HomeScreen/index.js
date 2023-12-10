@@ -15,6 +15,10 @@ import api from '../../api';
 import Header from '../../components/Header';
 import CategoryItem from '../../components/CategoryItem';
 import ProductItem from '../../components/ProductItem';
+import Modal from '../../components/Modal';
+import ModalProduct from '../../components/ModalProduct';
+
+let searchTimer = null;
 
 export default () => {
     const [headerSearch, setHeaderSearch] = useState("");
@@ -22,11 +26,15 @@ export default () => {
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
+    const [modalStatus, setModalStatus] = useState(false)
+    const [modalData, setModalData] = useState({});
+
     const [activeCategory, setActiveCategory] = useState(0);
-    const [activePage, setActivePage] = useState(0)
+    const [activePage, setActivePage] = useState(1)
+    const [activeSearch, setActiveSearch] = useState("")
 
     const getProducts = async () => {
-        const prods = await api.getProducts();
+        const prods = await api.getProducts(activeCategory, activePage, activeSearch);
         
         if(prods.error === "") {
             setProducts(prods.result.data);
@@ -34,6 +42,13 @@ export default () => {
             setActivePage(prods.result.pages);
         }
     }
+
+    useEffect(() => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+             setActiveSearch(headerSearch) 
+        }, 2000);
+    }, [headerSearch])
 
     useEffect(() => {
         getProducts();
@@ -50,8 +65,14 @@ export default () => {
     }, []);
 
     useEffect(() => {
+        setProducts([])
         getProducts();
-    }, [activeCategory, activePage])
+    }, [activeCategory, activePage, activeSearch]);
+
+    const handleProductClick = (data) => {
+        setModalData(data);
+        setModalStatus(true);
+    }
 
     return (
         <Container>
@@ -89,6 +110,7 @@ export default () => {
                         <ProductItem
                             key={index}
                             data={item}
+                            onClick={handleProductClick}
                         />
                     ))}
                 </ProductList>    
@@ -96,7 +118,7 @@ export default () => {
         }
         {totalPages > 0 &&
             <ProductPaginationArea>
-                {Array(8).fill(0).map((tem, index) => (
+                {Array(totalPages).fill(0).map((tem, index) => (
                    <ProductPaginationItem 
                         key={index} 
                         active={activePage}
@@ -108,6 +130,9 @@ export default () => {
                 ))}
             </ProductPaginationArea>
         }
+        <Modal status={modalStatus} setStatus={setModalStatus}>
+           <ModalProduct data={modalData} setStatus={setModalStatus}/>
+        </Modal>
         </Container>
     );
 }
